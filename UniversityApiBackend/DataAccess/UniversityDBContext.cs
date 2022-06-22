@@ -13,5 +13,6 @@ namespace UniversityApiBackend.DataAccess
 
         //Add DBsets (tables of DB)
         public DbSet<User>? Users { get; set; }
+        public DbSet<Curso>? Cursos { get; set; }
     }
 }
