@@ -2,38 +2,30 @@
 
 namespace UniversityApiBackend.Models.DataModels
 {
+    public enum Level
+    {
+        Basic,
+        Medium,
+        Advanced,
+        Expert
+    }
     public class Curso: BaseEntity
     {
-        [Required, StringLength(280)]
+        [Required, StringLength(50)]
         public string Name { get; set; } = string.Empty;
         [Required]
         public string Description { get; set; } = string.Empty;
         [Required, StringLength(280)]
         public string ShortDescription { get; set; } = string.Empty;
         [Required]
-        public string PublicoObjetivo { get; set; } = string.Empty;
+        public Level Level { get; set; } = Level.Basic;
+
+        //Relaciones con otras tablas
         [Required]
-        public string Objetivos { get; set; } = string.Empty;
+        public ICollection<Category> Categories { get; set; } = new List<Category>();
         [Required]
-        public string Requisitos { get; set; } = string.Empty;
+        public ICollection<Student> Students { get; set; } = new List<Student>();
         [Required]
-        public string Nivel
-        {
-            get
-            {
-                return Nivel;
-            }
-            set
-            {
-                if ((value == "Basico") || (value == "Medio") || (value == "Avanzado"))
-                {
-                    Nivel = value;
-                }
-                else
-                {
-                    throw new ArgumentException();
-                }
-            }
-        }
+        public Chapter Chapter { get; set; } = new Chapter();
     }
 }
