@@ -16,11 +16,16 @@ builder.Services.AddDbContext<UniversityDBContext>(options => options.UseSqlServ
 
 builder.Services.AddControllers();
 
+//7. añadir el servicio de auth de JWT
+//TODO: builder.Services.AddJwtTokenServices(builder.Configuration);
+
+
 //4. Add Custom Services (folder Services)
 builder.Services.AddScoped<IStudentsService, StudentsService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+//8. TODO: configurar Swagger para que acepte la auth de JWT
 builder.Services.AddSwaggerGen();
 
 
