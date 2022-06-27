@@ -2,19 +2,23 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using UniversityApiBackend.DataAccess;
 using UniversityApiBackend.Helpers;
+using UniversityApiBackend.Models.DataModels;
 
-namespace UniversityApiBackend.Models.DataModels
+namespace UniversityApiBackend.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly UniversityDBContext _context;
         private readonly JwtSettings _jwtSettings;
 
-        public AccountController(JwtSettings jwtSettings)
+        public AccountController(JwtSettings jwtSettings, UniversityDBContext context)
         {
             _jwtSettings = jwtSettings;
+            _context = context;
         }
 
         //FUNCIÓN de login
@@ -47,14 +51,14 @@ namespace UniversityApiBackend.Models.DataModels
                 if (Valid)
                 {
                     var user = Logins.FirstOrDefault(user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
-                    
+
                     Token = JwtHelpers.GenTokenKey(new UserTokens()
                     {
                         UserName = user.Name,
                         EmailId = user.Email,
                         Id = user.Id,
                         GuidId = Guid.NewGuid(),
-                        
+
                     }, _jwtSettings);
                 }
                 else
@@ -64,7 +68,8 @@ namespace UniversityApiBackend.Models.DataModels
                 return Ok(Token);
 
 
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw new Exception("GetToken Error ", e);
             }
